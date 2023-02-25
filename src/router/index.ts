@@ -1,5 +1,5 @@
 import type { VueCookies } from "vue-cookies";
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/home/index.vue";
 import { useUserStore } from "@/stores/user";
 
@@ -26,7 +26,7 @@ const auth = () => {
 };
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",

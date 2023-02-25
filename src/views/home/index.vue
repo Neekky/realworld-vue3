@@ -48,7 +48,7 @@
               <div class="queser-icon">
                 <el-avatar
                   :size="30"
-                  :src="item.avatar_url || '/defaultUserIcon.jpeg'"
+                  :src="item.avatar_url || defaultUserIcon"
                 />
                 <div class="queser-icon-name">
                   <p>
@@ -99,6 +99,7 @@ import { useRouter } from "vue-router";
 import _ from "lodash";
 import { questionApi, topicApi } from "@/api";
 import LoadMore from "@/components/LoadMore.vue";
+import defaultUserIcon from "@/assets/img/defaultUserIcon.jpeg";
 
 const router = useRouter();
 

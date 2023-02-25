@@ -13,7 +13,7 @@
           <a href=""
             ><img
               :src="
-                quesDetail?.questioner?.avatar_url || '/defaultUserIcon.jpeg'
+                quesDetail?.questioner?.avatar_url || defaultUserIcon
               "
           /></a>
           <div class="info">
@@ -50,6 +50,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import AnswerItem from "./components/AnswerItem.vue";
 import { questionApi, userApi } from "@/api";
+import defaultUserIcon from "@/assets/img/defaultUserIcon.jpeg";
 
 const quesDetail = ref<any>({});
 

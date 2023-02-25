@@ -51,7 +51,7 @@
               <img
                 style="width: 26px"
                 class="user-pic"
-                :src="userStore.userInfo.avatar_url || '/defaultUserIcon.jpeg'"
+                :src="userStore.userInfo.avatar_url || defaultUserIcon"
               />
               {{ userStore?.userInfo?.name }}
             </router-link>
@@ -83,6 +83,7 @@
 import { inject } from "vue";
 import { RouterView } from "vue-router";
 import { useUserStore } from "@/stores/user";
+import defaultUserIcon from "@/assets/img/defaultUserIcon.jpeg";
 import type { VueCookies } from "vue-cookies";
 
 const userStore = useUserStore();

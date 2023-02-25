@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import { fileURLToPath, URL } from "node:url";
 import vue from "@vitejs/plugin-vue";
 import Icons from "unplugin-icons/vite";
 import IconsResolver from "unplugin-icons/resolver";
@@ -17,10 +18,10 @@ export default ({ command, mode }) => {
     base: loadEnv(mode, process.cwd()).VITE_APP_BASE_URL,
     assetsInclude: [
       "**/*.jpg",
+      "**/*.png",
       "**/*.glb",
       "**/*.mp4",
       "**/*.jpeg",
-      "**/*.png",
     ],
     plugins: [
       vue(),
@@ -88,7 +89,7 @@ export default ({ command, mode }) => {
     },
     resolve: {
       alias: {
-        "@": pathSrc,
+        "@": fileURLToPath(new URL(pathSrc, import.meta.url)),
       },
     },
     css: {

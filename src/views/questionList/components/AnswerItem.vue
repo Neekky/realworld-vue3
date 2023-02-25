@@ -3,7 +3,7 @@
     <div class="article-actions-page">
       <div class="article-meta">
         <a href="profile.html"
-          ><img :src="data?.questioner?.avatar_url || '/defaultUserIcon.jpeg'"
+          ><img :src="data?.questioner?.avatar_url || defaultUserIcon"
         /></a>
         <div class="info">
           <a href="" class="author">Eric Simons</a>
@@ -27,8 +27,7 @@
 
     <div class="tool-bar">
       <div class="tool-bar-item">
-        <img class="agree" :src="isAgree ? '/isAgree.png' : '/agree.png'" />赞同
-        1131
+        <img :src="pIsAgree ? isAgreeIcon : agreeIcon" class="agree" />赞同 1131
       </div>
       <div @click="handleCommentClick" class="tool-bar-item">170条评论</div>
       <div class="tool-bar-item">收藏</div>
@@ -47,7 +46,7 @@
           </div>
           <div class="card-footer">
             <img
-              :src="data?.questioner?.avatar_url || '/defaultUserIcon.jpeg'"
+              :src="data?.questioner?.avatar_url || defaultUserIcon"
               class="comment-author-img"
             />
             <button class="btn btn-sm btn-primary">Post Comment</button>
@@ -64,7 +63,7 @@
           <div class="card-footer">
             <a href="" class="comment-author">
               <img
-                :src="data?.questioner?.avatar_url || '/defaultUserIcon.jpeg'"
+                :src="data?.questioner?.avatar_url || defaultUserIcon"
                 class="comment-author-img"
               />
             </a>
@@ -78,29 +77,24 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-  name: "AnswerItem",
-  props: {
-    data: Object,
-    pIsAgree: Boolean,
-  },
-  methods: {
-    handleAgree() {
-      console.log(this.isAgree);
-    },
-    handleCommentClick() {
-      this.isComment = !this.isComment;
-    },
-  },
-  data() {
-    return {
-      isComment: false,
-      isAgree: false,
-    };
-  },
-});
+<script setup lang="ts">
+import { ref } from "vue";
+import defaultUserIcon from "@/assets/img/defaultUserIcon.jpeg";
+import agreeIcon from "@/assets/img/agree.png";
+import isAgreeIcon from "@/assets/img/isAgree.png";
+
+const { data, pIsAgree } = defineProps(["data", "pIsAgree"]);
+
+const isComment = ref(false);
+const isAgree = ref(false);
+
+const handleAgree = () => {
+  console.log(isAgree.value);
+};
+
+const handleCommentClick = () => {
+  isComment.value = !isComment.value;
+};
 </script>
 
 <style scope>

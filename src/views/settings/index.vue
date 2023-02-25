@@ -9,7 +9,7 @@
               <fieldset class="form-group avatar-wrap">
                 <img
                   class="avatar"
-                  :src="userInfo.avatar_url || '/defaultUserIcon.jpeg'"
+                  :src="userInfo.avatar_url || defaultUserIcon"
                 />
               </fieldset>
               <fieldset class="form-group">
@@ -77,6 +77,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { useUserStore } from "@/stores/user";
 import { userApi } from "@/api";
 import { ElMessage } from "element-plus";
+import defaultUserIcon from "@/assets/img/defaultUserIcon.jpeg";
 
 const userStore = useUserStore();
 
