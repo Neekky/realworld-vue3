@@ -1,21 +1,64 @@
+import type { VueCookies } from "vue-cookies";
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import HomeView from "../views/home/index.vue";
+import Settings from "../views/settings/index.vue";
+import { useUserStore } from "@/stores/user";
+
+const noAuth = () => {
+  const userStore = useUserStore();
+  if (userStore?.userInfo?._id) {
+    // 已登录
+    return { path: "/" };
+  } else {
+    // 未登录
+    return true;
+  }
+};
+
+const auth = () => {
+  const userStore = useUserStore();
+  if (!userStore?.userInfo?._id) {
+    // 已登录
+    return { path: "/login" };
+  } else {
+    // 未登录
+    return true;
+  }
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "Home",
       component: HomeView,
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/AboutView.vue"),
+      path: "/question-list",
+      name: "QuestionList",
+      component: () => import("../views/questionList/index.vue"),
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      component: () => import("../views/profile/index.vue"),
+      beforeEnter: [auth],
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: () => import("../views/login/index.vue"),
+      beforeEnter: [noAuth],
+    },
+    {
+      path: "/settings",
+      name: "Settings",
+      component: Settings,
+      meta: {
+        requiresAuth: true,
+      },
+      beforeEnter: [auth],
     },
   ],
 });
