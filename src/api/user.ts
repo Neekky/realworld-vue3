@@ -13,7 +13,7 @@ export default new (class Question extends Axios {
    * 用户注册
    */
   register(params: { name: string; password: string }) {
-    return this.post("/users/create", { body: params });
+    return this.post("/users/create", params);
   }
 
   /**

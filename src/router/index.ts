@@ -51,6 +51,12 @@ const router = createRouter({
       beforeEnter: [noAuth],
     },
     {
+      path: "/register",
+      name: "Register",
+      component: () => import("../views/login/index.vue"),
+      beforeEnter: [noAuth],
+    },
+    {
       path: "/settings",
       name: "Settings",
       component: () => import("../views/settings/index.vue"),
@@ -63,11 +69,13 @@ const router = createRouter({
       path: "/question",
       name: "Question",
       component: () => import("../views/editor/index.vue"),
+      beforeEnter: [auth],
     },
     {
       path: "/answer",
       name: "Answer",
       component: () => import("../views/editor/index.vue"),
+      beforeEnter: [auth],
     },
   ],
 });

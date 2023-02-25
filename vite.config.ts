@@ -12,7 +12,16 @@ const pathSrc = path.resolve(__dirname, "src");
 
 // https://vitejs.dev/config/
 export default ({ command, mode }) => {
+  console.log(mode, "mode")
   return defineConfig({
+    base: loadEnv(mode, process.cwd()).VITE_APP_BASE_URL,
+    assetsInclude: [
+      "**/*.jpg",
+      "**/*.glb",
+      "**/*.mp4",
+      "**/*.jpeg",
+      "**/*.png",
+    ],
     plugins: [
       vue(),
       AutoImport({
