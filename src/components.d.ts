@@ -10,27 +10,14 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
-    ElCard: typeof import("element-plus/es")["ElCard"]
-    ElCol: typeof import("element-plus/es")["ElCol"]
-    ElContainer: typeof import("element-plus/es")["ElContainer"]
-    ElFooter: typeof import("element-plus/es")["ElFooter"]
-    ElHeader: typeof import("element-plus/es")["ElHeader"]
-    ElMain: typeof import("element-plus/es")["ElMain"]
-    ElOption: typeof import("element-plus/es")["ElOption"]
-    ElPagination: typeof import("element-plus/es")["ElPagination"]
-    ElRadioButton: typeof import("element-plus/es")["ElRadioButton"]
-    ElRadioGroup: typeof import("element-plus/es")["ElRadioGroup"]
-    ElRow: typeof import("element-plus/es")["ElRow"]
-    ElSelect: typeof import("element-plus/es")["ElSelect"]
-    ElTable: typeof import("element-plus/es")["ElTable"]
-    ElTableColumn: typeof import("element-plus/es")["ElTableColumn"]
+    ElOption: typeof import('element-plus/es')['ElOption']
+    ElSelect: typeof import('element-plus/es')['ElSelect']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./components/icons/IconTooling.vue')['default']
-    Loading: typeof import("element-plus/es")["ElLoadingDirective"]
     LoadMore: typeof import('./components/LoadMore.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -39,6 +26,5 @@ declare module '@vue/runtime-core' {
   }
   export interface ComponentCustomProperties {
     vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

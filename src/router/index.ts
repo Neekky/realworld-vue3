@@ -1,7 +1,6 @@
 import type { VueCookies } from "vue-cookies";
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/home/index.vue";
-import Settings from "../views/settings/index.vue";
 import { useUserStore } from "@/stores/user";
 
 const noAuth = () => {
@@ -54,11 +53,21 @@ const router = createRouter({
     {
       path: "/settings",
       name: "Settings",
-      component: Settings,
+      component: () => import("../views/settings/index.vue"),
       meta: {
         requiresAuth: true,
       },
       beforeEnter: [auth],
+    },
+    {
+      path: "/question",
+      name: "Question",
+      component: () => import("../views/editor/index.vue"),
+    },
+    {
+      path: "/answer",
+      name: "Answer",
+      component: () => import("../views/editor/index.vue"),
     },
   ],
 });

@@ -5,9 +5,9 @@ export default new (class Home extends Request {
    * 获取问题列表
    */
   getTopicList(
-    query: { per_page: number; page: number } = { per_page: 10, page: 0 }
+    params: { per_page: number; page: number } = { per_page: 10, page: 0 }
   ) {
-    return this.get("/topics", { query });
+    return this.get("/topics", { params });
   }
 
   /**
@@ -15,8 +15,8 @@ export default new (class Home extends Request {
    */
   getTopicQuestionList(
     id: string,
-    query: { per_page: number; page: number } = { per_page: 10, page: 0 }
+    params: { per_page: number; page: number } = { per_page: 10, page: 0 }
   ) {
-    return this.get(`/topics/${id}/questions`, {query});
+    return this.get(`/topics/${id}/questions`, { params });
   }
 })();

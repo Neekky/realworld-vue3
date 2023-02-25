@@ -58,7 +58,10 @@
                 </div>
               </div>
             </router-link>
-            <div @click="handleQuesItemClick(item)" class="preview-link">
+            <div
+              @click="handleQuesItemClick(item)"
+              class="preview-link preview-link-page"
+            >
               <h1>{{ item.title }}</h1>
               <p>{{ item.description }}</p>
               <span>查看更多...</span>
@@ -146,6 +149,7 @@ const getList = async () => {
   // 设置列表的值
   list.value = [...list.value, ...res.data];
   loading.value = false;
+  return res;
 };
 
 // 获取话题列表
@@ -160,6 +164,7 @@ const getTopicList = async () => {
   }
 
   topicList.value = [...topicList.value, ...res.data];
+  return res;
 };
 
 // 触底加载
@@ -248,6 +253,15 @@ const clear = () => {
 
 .preview-link:hover {
   cursor: pointer;
+}
+
+.preview-link-page p {
+  display: -webkit-box; /*对象作为伸缩盒子模型展示*/
+  -webkit-box-orient: vertical; /*设置或检索伸缩盒子对象的子元素的排列方式*/
+  word-break: break-all; /*强制换行*/
+  -webkit-line-clamp: 3; /*显示的行数*/
+  overflow: hidden; /*隐藏超出的内容*/
+  text-overflow: ellipsis; /*省略号(...)*/
 }
 
 .sidebar-page {

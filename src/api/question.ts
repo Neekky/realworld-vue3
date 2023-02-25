@@ -1,10 +1,15 @@
 import { Axios } from "@/utils"; // 导入 api
+import { useUserStore } from "@/stores/user";
 
 export default new (class Question extends Axios {
   /**
    * 获取问题列表
    */
-  getQuestionList(params: { per_page: number; page: number; topic_id: string }) {
+  getQuestionList(params: {
+    per_page: number;
+    page: number;
+    topic_id: string;
+  }) {
     return this.get("/question", { params });
   }
 
@@ -20,5 +25,20 @@ export default new (class Question extends Axios {
    */
   getAnswerByQuestionId(id: string) {
     return this.get(`/question/${id}/answer`);
+  }
+
+  /**
+   * 创建问题
+   */
+  createQuestion(params: {
+    title: string;
+    description: string;
+    topics: string[];
+  }) {
+    const userStore = useUserStore();
+
+    return this.post("/question", params, {
+      headers: { Authorization: `Bearer ${userStore.token}` },
+    });
   }
 })();

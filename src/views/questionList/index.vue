@@ -25,17 +25,23 @@
             &nbsp; 关注 {{ quesDetail?.questioner?.name }}
             <span class="counter">({{ followerDetail?.length || 0 }})</span>
           </button>
-          <!-- <button class="btn btn-sm btn-outline-primary">
-            <i class="ion-heart"></i>
-            &nbsp; 赞同 <span class="counter">(29)</span>
-          </button> -->
+          &nbsp;
+          <router-link to="/answer">
+            <button class="btn btn-sm btn-outline-primary">
+              <i class="ion-heart"></i>
+              &nbsp; 写回答
+            </button>
+          </router-link>
         </div>
       </div>
     </div>
     <template v-if="answerList.length > 0">
       <AnswerItem v-for="item in answerList" :key="item._id" :data="item" />
     </template>
-    <div v-else>暂无答案，等你来答</div>
+    <div class="no-answer" v-else>
+      <div class="no-data" />
+      <div>暂无答案，等你来答</div>
+    </div>
   </div>
 </template>
 
@@ -95,5 +101,23 @@ const getUserFollowers = async () => {
 <style scope>
 .ques-desc {
   margin-top: 6px;
+}
+
+.no-answer {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #b9b9b9;
+  font-size: 18px;
+}
+
+.no-data {
+  background-image: url("./img/nodata.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 300px;
+  height: 300px;
 }
 </style>

@@ -105,6 +105,7 @@ const updateUserById = async () => {
     if (res.code === 200) {
       ElMessage.success({
         message: res.msg,
+        duration: 1000
       });
     }
     return res;

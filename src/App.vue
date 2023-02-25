@@ -100,7 +100,7 @@ if (token) {
 </script>
 <style scoped>
 .vue-root-container {
-  min-height: 100vh;
+  min-height: 82vh;
 }
 .header {
   display: flex;

@@ -1,5 +1,22 @@
 <template>
   <div class="container page">
+    <div class="article-actions-page">
+      <div class="article-meta">
+        <a href="profile.html"
+          ><img :src="data?.questioner?.avatar_url || '/defaultUserIcon.jpeg'"
+        /></a>
+        <div class="info">
+          <a href="" class="author">Eric Simons</a>
+          <span class="date">January 20th</span>
+        </div>
+      </div>
+      <div class="article-meta">
+        <button class="btn btn-sm btn-outline-secondary">
+          <i class="ion-plus-round"></i>
+          &nbsp; Follow Eric Simons
+        </button>
+      </div>
+    </div>
     <div class="row article-content">
       <div class="col-md-12">
         <p>
@@ -13,32 +30,10 @@
         <img class="agree" :src="isAgree ? '/isAgree.png' : '/agree.png'" />赞同
         1131
       </div>
-      <div class="tool-bar-item">170条评论</div>
+      <div @click="handleCommentClick" class="tool-bar-item">170条评论</div>
       <div class="tool-bar-item">收藏</div>
     </div>
     <hr />
-
-    <div class="article-actions">
-      <div class="article-meta">
-        <a href="profile.html"
-          ><img :src="data?.questioner?.avatar_url || '/defaultUserIcon.jpeg'"
-        /></a>
-        <div class="info">
-          <a href="" class="author">Eric Simons</a>
-          <span class="date">January 20th</span>
-        </div>
-
-        <button class="btn btn-sm btn-outline-secondary">
-          <i class="ion-plus-round"></i>
-          &nbsp; Follow Eric Simons
-        </button>
-        &nbsp;
-        <button class="btn btn-sm btn-outline-primary">
-          <i class="ion-heart"></i>
-          &nbsp; Favorite Post <span class="counter">(29)</span>
-        </button>
-      </div>
-    </div>
 
     <div class="row" v-show="isComment">
       <div class="col-xs-12 col-md-8 offset-md-2">
@@ -81,7 +76,6 @@
       </div>
     </div>
   </div>
-  <hr />
 </template>
 
 <script lang="ts">
@@ -96,6 +90,9 @@ export default defineComponent({
     handleAgree() {
       console.log(this.isAgree);
     },
+    handleCommentClick() {
+      this.isComment = !this.isComment;
+    },
   },
   data() {
     return {
@@ -107,6 +104,13 @@ export default defineComponent({
 </script>
 
 <style scope>
+.article-actions-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0 1rem;
+}
 .tool-bar {
   display: flex;
 }
@@ -117,6 +121,7 @@ export default defineComponent({
   margin-left: 24px;
   color: #8590a6;
   align-items: center;
+  cursor: pointer;
 }
 
 .agree {

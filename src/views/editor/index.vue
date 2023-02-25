@@ -3,38 +3,59 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-10 offset-md-1 col-xs-12">
-          <form>
+          <form @submit.prevent="onSubmit">
             <fieldset>
               <fieldset v-if="isQuestion" class="form-group">
+                <div class="title">请输入问题名称</div>
                 <input
+                  v-model="title"
                   type="text"
-                  class="form-control form-control-lg"
+                  class="form-control"
+                  required
                   placeholder="请输入问题名称"
                 />
               </fieldset>
               <fieldset class="form-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="What's this article about?"
-                />
-              </fieldset>
-              <fieldset class="form-group">
+                <div class="title">
+                  请输入{{ isQuestion ? "问题" : "答案" }}内容
+                </div>
                 <textarea
+                  v-model="description"
                   class="form-control"
+                  required
                   rows="8"
-                  placeholder="Write your article (in markdown)"
+                  placeholder="请输入内容"
                 ></textarea>
               </fieldset>
               <fieldset class="form-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter tags"
-                />
-                <div class="tag-list"></div>
+                <div class="title">
+                  请选择话题
+                  <span v-if="topicValue.length >= 4" class="select-tip"
+                    >最多选择4个话题</span
+                  >
+                </div>
+                <el-select
+                  class="topic-selector"
+                  v-model="topicValue"
+                  multiple
+                  :multiple-limit="4"
+                  filterable
+                  allow-create
+                  clearable
+                  default-first-option
+                  size="large"
+                  :reserve-keyword="false"
+                  placeholder="选择话题"
+                >
+                  <el-option
+                    v-for="item in topicList"
+                    :key="item._id"
+                    :label="item.name"
+                    :value="item._id"
+                  />
+                </el-select>
               </fieldset>
-              <el-button class="pull-xs-right" type="primary">提交</el-button>
+              <button class="btn btn-lg btn-primary pull-xs-right">提交</button>
             </fieldset>
           </form>
         </div>
@@ -43,23 +64,81 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { topicApi, questionApi } from "@/api";
+import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
 // 使用登录校验中间件
-definePageMeta({
-  middleware: ["auth"]
-  // or middleware: 'auth'
-})
 export default {
   name: "Editor",
+  data(): any {
+    return {
+      topicList: [],
+      title: "",
+      description: "",
+      per_page: 20,
+      page: 0,
+      topicValue: [],
+    };
+  },
+  mounted() {
+    this.getTopic();
+  },
   computed: {
     isQuestion() {
       return this.$route?.name === "Question";
     },
   },
   methods: {
-    
-  }
+    async createQuestion() {
+      const res = await questionApi.createQuestion({
+        title: this.title,
+        description: this.description,
+        topics: this.topicList,
+      });
+      if (res.code === 200) {
+        ElMessage.success({
+          message: res.msg || "创建成功",
+          duration: 1000,
+          onClose: () => {
+            this.$router.push("/");
+          },
+        });
+      }
+    },
+    onSubmit() {
+      if (this.isQuestion) {
+        this.createQuestion();
+      }
+    },
+    async getTopic() {
+      const res = await topicApi.getTopicList({
+        page: this.page,
+        per_page: this.per_page,
+      });
+      if (res.code === 200) {
+        this.topicList = res.data;
+      }
+    },
+
+    handleTopicSelect(val: any) {
+      console.log(val, "123123");
+    },
+  },
 };
 </script>
 
-<style></style>
+<style scope>
+.title {
+  margin-bottom: 10px;
+}
+
+.topic-selector {
+  width: 100%;
+}
+
+.select-tip {
+  font-size: 12px;
+  color: #f24;
+}
+</style>

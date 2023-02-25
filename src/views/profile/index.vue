@@ -81,7 +81,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 // 使用登录校验中间件
 
 </script>
