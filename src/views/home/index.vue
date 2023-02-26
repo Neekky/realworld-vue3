@@ -1,6 +1,6 @@
 <template>
   <div class="home-page">
-    <div class="banner app-header" style="">
+    <div class="banner app-header">
       <div class="container">
         <h1 class="logo-font">知乎</h1>
         <p>一个分享知识的地方</p>
@@ -48,7 +48,7 @@
               <div class="queser-icon">
                 <el-avatar
                   :size="30"
-                  :src="item.avatar_url || defaultUserIcon"
+                  :src="item.questioner.avatar_url || defaultUserIcon"
                 />
                 <div class="queser-icon-name">
                   <p>
@@ -93,15 +93,16 @@
 
 <script lang="ts" setup>
 import dayjs from "dayjs";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute, useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
 import _ from "lodash";
 import { questionApi, topicApi } from "@/api";
 import LoadMore from "@/components/LoadMore.vue";
 import defaultUserIcon from "@/assets/img/defaultUserIcon.jpeg";
 
 const router = useRouter();
+
+const route = useRoute();
 
 // 数据源
 const list = ref<any[]>([]);
@@ -125,6 +126,9 @@ const cTopic = ref<any>({});
 const tabIndex = ref(1);
 
 onMounted(async () => {
+  if (route?.query?.topic) {
+    handleTopicClick(JSON.parse(route?.query?.topic));
+  }
   await Promise.all([getList(), getTopicList()]);
 });
 
@@ -224,7 +228,7 @@ const clear = () => {
 .app-header {
   box-shadow: 0 1px 3px hsl(0deg 0% 7% / 10%);
   background: rgb(5, 109, 232) !important;
-  min-width: 1000px;
+  min-width: 100vw;
   overflow: hidden;
   position: relative;
   z-index: 100;

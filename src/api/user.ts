@@ -1,7 +1,7 @@
 import { Axios } from "@/utils"; // 导入 api
 import { useUserStore } from "@/stores/user";
 
-export default new (class Question extends Axios {
+export default new (class User extends Axios {
   /**
    * 用户登录
    */
@@ -39,5 +39,27 @@ export default new (class Question extends Axios {
    */
   getUserFollowers(userId: string) {
     return this.get(`/users/${userId}/followers`);
+  }
+
+  /**
+   * 关注用户
+   */
+  followUser(userId: string) {
+    const userStore = useUserStore();
+    return this.put(
+      `/users/following/${userId}`,
+      {},
+      { headers: { Authorization: `Bearer ${userStore.token}` } }
+    );
+  }
+
+  /**
+   * 关注用户
+   */
+  cancelFollowUser(userId: string) {
+    const userStore = useUserStore();
+    return this.delete(`/users/following/${userId}`, {
+      headers: { Authorization: `Bearer ${userStore.token}` },
+    });
   }
 })();

@@ -1,6 +1,6 @@
 import Request from "@/utils/request";
 
-export default new (class Home extends Request {
+export default new (class Topic extends Request {
   /**
    * 获取问题列表
    */

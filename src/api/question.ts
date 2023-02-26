@@ -41,4 +41,19 @@ export default new (class Question extends Axios {
       headers: { Authorization: `Bearer ${userStore.token}` },
     });
   }
+
+  /**
+   * 创建问题
+   */
+  answerQuestion(
+    id: string,
+    params: {
+      content: string;
+    }
+  ) {
+    const userStore = useUserStore();
+    return this.post(`/question/${id}/answer`, params, {
+      headers: { Authorization: `Bearer ${userStore.token}` },
+    });
+  }
 })();

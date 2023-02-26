@@ -79,7 +79,7 @@ service.interceptors.response.use(
     const code = res.data["code"] || 200;
     // 获取错误信息
     const msg = res.data["msg"] || errorCodeType(code) || errorCodeType(-1);
-    if (code === 200) {
+    if (code === 200 || code === 204) {
       return Promise.resolve(res.data);
     } else {
       ElMessage.error(msg);

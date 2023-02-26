@@ -66,8 +66,8 @@
 
 <script lang="ts">
 import { topicApi, questionApi } from "@/api";
-import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
+
 // 使用登录校验中间件
 export default {
   name: "Editor",
@@ -83,6 +83,7 @@ export default {
   },
   mounted() {
     this.getTopic();
+    console.log(this.$route, "this.$route");
   },
   computed: {
     isQuestion() {
@@ -94,7 +95,7 @@ export default {
       const res = await questionApi.createQuestion({
         title: this.title,
         description: this.description,
-        topics: this.topicList,
+        topics: this.topicValue,
       });
       if (res.code === 200) {
         ElMessage.success({
@@ -106,9 +107,26 @@ export default {
         });
       }
     },
+    async answerQuestion() {
+      const { quesId } = this.$route?.query;
+      const res = await questionApi.answerQuestion(quesId, {
+        content: this.description,
+      });
+      if (res.code === 200) {
+        ElMessage.success({
+          message: res.msg || "感谢你的回答",
+          duration: 1000,
+          onClose: () => {
+            this.$router.go(-1);
+          },
+        });
+      }
+    },
     onSubmit() {
       if (this.isQuestion) {
         this.createQuestion();
+      } else {
+        this.answerQuestion();
       }
     },
     async getTopic() {
