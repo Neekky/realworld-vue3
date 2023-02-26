@@ -100,9 +100,9 @@ import { questionApi, topicApi } from "@/api";
 import LoadMore from "@/components/LoadMore.vue";
 import defaultUserIcon from "@/assets/img/defaultUserIcon.jpeg";
 
-const router = useRouter();
+const router: any = useRouter();
 
-const route = useRoute();
+const route: any = useRoute();
 
 // 数据源
 const list = ref<any[]>([]);
