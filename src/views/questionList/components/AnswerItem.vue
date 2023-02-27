@@ -26,11 +26,8 @@
     </div>
 
     <div class="tool-bar">
-      <div class="tool-bar-item">
-        <img
-          :src="props.pIsAgree ? isAgreeIcon : agreeIcon"
-          class="agree"
-        />赞同 1131
+      <div @click="handleAgree" class="tool-bar-item">
+        <img :src="isAgree ? isAgreeIcon : agreeIcon" class="agree" />{{ isAgree ? '已赞同' : '赞同' }} {{ props?.data?.voteCount }}
       </div>
       <div @click="handleCommentClick" class="tool-bar-item">170条评论</div>
       <div class="tool-bar-item">收藏</div>
@@ -59,66 +56,27 @@
             <button class="btn btn-sm btn-primary">发表评论</button>
           </div>
         </form>
-
-        <div v-for="item in commentList" :key="item._id" class="card">
-          <div class="card-block card-block-page">
-            <p class="card-text">{{ item?.content }}</p>
-            <div class="comment-reply" v-if="item?.replyTo">回复：{{ item?.replyTo.name }}</div>
-            <div class="delete-comment">
-              <div
-                v-if="userStore.userInfo._id === item.commentator._id"
-                @click="deleteComment(item)"
-              >
-                删除
-              </div>
-              <!-- <div
-                class="comment-tool"
-                v-if="userStore.userInfo._id"
-                @click="openReplyComment"
-              >
-                回复
-              </div> -->
-            </div>
-          </div>
-          <div class="card-footer">
-            <a href="" class="comment-author">
-              <img
-                :src="item?.commentator?.avatar_url || defaultUserIcon"
-                class="comment-author-img"
-              />
-            </a>
-            &nbsp;
-            <a href="" class="comment-author">{{ item?.commentator?.name }}</a>
-            <span class="date-posted">{{
-              dayjs(item.updatedAt).format("YYYY-MM-DD")
-            }}</span>
-          </div>
-          <div class="card-block card-block-page" v-if="isOpenReplyComment">
-            <textarea
-              class="form-control"
-              placeholder="回复"
-              rows="3"
-              required
-              maxlength="200"
-            >
-            </textarea>
-            <button class="btn btn-sm btn-primary">回复</button>
-          </div>
-        </div>
+        <Comment
+          v-for="item in commentList"
+          :key="item._id"
+          :data="item"
+          :answerData="props.data"
+          @refreshCommentList="refreshCommentList"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import defaultUserIcon from "@/assets/img/defaultUserIcon.jpeg";
 import agreeIcon from "@/assets/img/agree.png";
 import isAgreeIcon from "@/assets/img/isAgree.png";
 import { useUserStore } from "@/stores/user";
-import { commentApi } from "@/api";
+import { commentApi, userApi } from "@/api";
 import { ElMessage } from "element-plus";
-import dayjs from "dayjs";
+import Comment from "./comment.vue";
 
 const userStore = useUserStore();
 
@@ -135,8 +93,6 @@ const per_page = 20;
 const page = ref(0);
 
 const commentList = ref<any[]>([]);
-
-const isOpenReplyComment = ref(false);
 
 onMounted(() => {});
 // 获取答案下的评论列表
@@ -164,8 +120,19 @@ const refreshCommentList = () => {
 };
 
 // 处理赞同
-const handleAgree = () => {
-  console.log(isAgree.value);
+const handleAgree = async () => {
+  if (isAgree.value) {
+    const res = await userApi.unlikingAnswer(props.data._id);
+    if (res.code === 204) {
+      isAgree.value = false;
+    }
+    return;
+  }
+
+  const res = await userApi.likingAnswer(props.data._id);
+  if (res.code === 204) {
+    isAgree.value = true;
+  }
 };
 
 // 处理评论点击
@@ -186,53 +153,6 @@ const handleComment = async () => {
     props.data.questionId,
     props.data._id,
     { content: commentContent.value }
-  );
-
-  if (res.code === 200) {
-    ElMessage.success({
-      message: "评论成功",
-      duration: 1000,
-    });
-    commentContent.value = "";
-    refreshCommentList();
-  }
-};
-
-const deleteComment = async (item: any) => {
-  const res = await commentApi.deleteAnswerComment(
-    props.data.questionId,
-    props.data._id,
-    item._id
-  );
-  if (res.code === 204) {
-    ElMessage.success({
-      message: "删除评论成功",
-      duration: 1000,
-    });
-    refreshCommentList();
-  }
-};
-
-const openReplyComment = () => {
-  isOpenReplyComment.value = !isOpenReplyComment.value;
-}
-
-const replyToComment = async (item: any) => {
-  console.log(item, 123213);
-  const comment: {
-    content: string;
-    rootCommentId?: string;
-    replyTo?: string;
-  } = {
-    content: commentContent.value,
-    rootCommentId: item._id,
-    replyTo: item.commentator._id,
-  };
-
-  const res = await commentApi.commentAnswer(
-    props.data.questionId,
-    props.data._id,
-    comment
   );
 
   if (res.code === 200) {

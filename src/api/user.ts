@@ -65,4 +65,28 @@ export default new (class User extends Axios {
       headers: { Authorization: `Bearer ${userStore.token}` },
     });
   }
+
+  /**
+   * 赞答案
+   */
+  likingAnswer(answerId: string) {
+    const userStore = useUserStore();
+    return this.put(
+      `/users/liking-answer/${answerId}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${userStore.token}` },
+      }
+    );
+  }
+
+  /**
+   * 取消赞答案
+   */
+  unlikingAnswer(answerId: string) {
+    const userStore = useUserStore();
+    return this.delete(`/users/liking-answer/${answerId}`, {
+      headers: { Authorization: `Bearer ${userStore.token}` },
+    });
+  }
 })();

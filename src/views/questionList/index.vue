@@ -185,6 +185,6 @@ const handleFollow = () => {
 }
 
 .follow-btn {
-  background-image: #555;
+  background: #555;
 }
 </style>

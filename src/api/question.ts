@@ -2,6 +2,7 @@ import { Axios } from "@/utils"; // 导入 api
 import { useUserStore } from "@/stores/user";
 
 export default new (class Question extends Axios {
+
   /**
    * 获取问题列表
    */
@@ -55,5 +56,12 @@ export default new (class Question extends Axios {
     return this.post(`/question/${id}/answer`, params, {
       headers: { Authorization: `Bearer ${userStore.token}` },
     });
+  }
+
+  /**
+   * 获取问题下指定答案
+   */
+  getQuestionAnswerById(quesId:string, answerId: string) {
+    return this.get(`/question/${quesId}/answer/${answerId}`);
   }
 })();
