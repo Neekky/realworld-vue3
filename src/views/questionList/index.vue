@@ -107,7 +107,7 @@ const getAnswerById = async () => {
 };
 
 const getUserFollowers = async () => {
-  const id: string = userStore.userInfo._id;
+  const id: string = route.query.queserId as string;;
   const res = await userApi.getUserFollowers(id);
   if (res.code !== 200) {
     console.log("接口报错", res);
