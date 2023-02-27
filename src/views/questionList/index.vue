@@ -107,7 +107,7 @@ const getAnswerById = async () => {
 };
 
 const getUserFollowers = async () => {
-  const id: string = route.query.queserId as string;;
+  const id: string = route.query.queserId as string;
   const res = await userApi.getUserFollowers(id);
   if (res.code !== 200) {
     console.log("接口报错", res);
@@ -118,7 +118,7 @@ const getUserFollowers = async () => {
 };
 
 const followUser = async () => {
-  const id: string = userStore.userInfo._id;
+  const id: string = route.query.queserId as string;
   const res = await userApi.followUser(id);
   if (res.code === 204) {
     ElMessage.success({
@@ -130,7 +130,7 @@ const followUser = async () => {
 };
 
 const cancelFollowUser = async () => {
-  const id: string = userStore.userInfo._id;
+  const id: string = route.query.queserId as string;
   const res = await userApi.cancelFollowUser(id);
   if (res.code === 204) {
     ElMessage.success({

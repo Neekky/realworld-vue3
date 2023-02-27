@@ -38,7 +38,10 @@ export default new (class User extends Axios {
    * 查询用户的粉丝
    */
   getUserFollowers(userId: string) {
-    return this.get(`/users/${userId}/followers`);
+    const userStore = useUserStore();
+    return this.get(`/users/${userId}/followers`, {
+      params: { userId: userStore?.userInfo?._id || "" },
+    });
   }
 
   /**
