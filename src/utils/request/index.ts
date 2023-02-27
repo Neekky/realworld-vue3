@@ -1,6 +1,11 @@
-import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
+import axios, {
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type InternalAxiosRequestConfig,
+} from "axios";
 import { errorCodeType } from "./error-code-type";
 import { ElMessage, ElLoading } from "element-plus";
+import router from "@/router";
 
 // 创建axios实例
 const service: AxiosInstance = axios.create({
@@ -36,7 +41,17 @@ const hideLoading = () => {
 
 // 请求拦截
 service.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig<any>) => {
+    if (config.headers?.Authorization === "Bearer ") {
+      console.log("执行了吗", config);
+      const err: any = new Error("用户未登录");
+      err.cancelToken = true; // 标识请求已被取消
+      router.push({
+        path: "/login",
+        query: { redirect: router.currentRoute.value.fullPath },
+      });
+      return Promise.reject(err);
+    }
     showLoading();
     // 是否需要设置 token放在请求头
     // config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改

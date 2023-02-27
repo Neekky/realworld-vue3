@@ -35,7 +35,7 @@ export default new (class Comment extends Axios {
     const userStore = useUserStore();
     return this.get(`question/${quesId}/answer/${answerId}/comments`, {
       params,
-      headers: { Authorization: `Bearer ${userStore.token}` },
+      // headers: { Authorization: `Bearer ${userStore.token}` },
     });
   }
 

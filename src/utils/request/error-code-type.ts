@@ -19,6 +19,9 @@ export const errorCodeType = (code: number): string => {
     case 408:
       errMessage = "请求超时";
       break;
+    case 302:
+      errMessage = "请登录";
+      break;
     case 500:
       errMessage = "服务器端出错";
       break;
