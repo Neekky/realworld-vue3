@@ -3,17 +3,19 @@
     <div class="article-actions-page">
       <div class="article-meta">
         <a href="profile.html"
-          ><img :src="props.data?.questioner?.avatar_url || defaultUserIcon"
+          ><img :src="props.data?.answerer?.avatar_url || defaultUserIcon"
         /></a>
         <div class="info">
-          <a href="" class="author">Eric Simons</a>
-          <span class="date">January 20th</span>
+          <a href="" class="author">{{ props.data?.answerer.name }}</a>
+          <span class="date">{{
+            dayjs(props.data?.answerer.updatedAt).format("YYYY-MM-DD")
+          }}</span>
         </div>
       </div>
       <div class="article-meta">
         <button class="btn btn-sm btn-outline-secondary">
           <i class="ion-plus-round"></i>
-          &nbsp; Follow Eric Simons
+          &nbsp; 关注{{ props.data?.answerer.name }}
         </button>
       </div>
     </div>
@@ -27,9 +29,12 @@
 
     <div class="tool-bar">
       <div @click="handleAgree" class="tool-bar-item">
-        <img :src="isAgree ? isAgreeIcon : agreeIcon" class="agree" />{{ isAgree ? '已赞同' : '赞同' }} {{ props?.data?.voteCount }}
+        <img :src="cIsAgree ? isAgreeIcon : agreeIcon" class="agree" />{{
+          cIsAgree ? "已赞同" : "赞同"
+        }}
+        {{ voteCount }}
       </div>
-      <div @click="handleCommentClick" class="tool-bar-item">170条评论</div>
+      <div @click="handleCommentClick" class="tool-bar-item">查看评论</div>
       <div class="tool-bar-item">收藏</div>
     </div>
     <hr />
@@ -77,6 +82,7 @@ import { useUserStore } from "@/stores/user";
 import { commentApi, userApi } from "@/api";
 import { ElMessage } from "element-plus";
 import Comment from "./comment.vue";
+import dayjs from "dayjs";
 
 const userStore = useUserStore();
 
@@ -84,9 +90,16 @@ const props = defineProps(["data", "pIsAgree"]);
 
 const isComment = ref(false);
 
-const isAgree = ref(false);
+// 临时性处理方法，目前数据量小，由前端遍历该用户是否点赞
+const cIsAgree = ref(
+  props.data?.liked_by?.findIndex(
+    (ele: any) => ele._id === userStore.userInfo._id
+  ) > -1
+);
 
 const commentContent = ref("");
+
+const voteCount = ref<number>(props?.data?.voteCount);
 
 const per_page = 20;
 
@@ -121,17 +134,19 @@ const refreshCommentList = () => {
 
 // 处理赞同
 const handleAgree = async () => {
-  if (isAgree.value) {
+  if (cIsAgree.value) {
     const res = await userApi.unlikingAnswer(props.data._id);
     if (res.code === 204) {
-      isAgree.value = false;
+      cIsAgree.value = false;
+      voteCount.value--;
     }
     return;
   }
 
   const res = await userApi.likingAnswer(props.data._id);
   if (res.code === 204) {
-    isAgree.value = true;
+    cIsAgree.value = true;
+    voteCount.value++;
   }
 };
 
