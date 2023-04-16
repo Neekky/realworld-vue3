@@ -2,8 +2,7 @@
   "apps": [
     {
       "name": "ZhiHu_Vue3",
-      "script": "npm",
-      "args": "start"
+      "script": "service"
     }
   ]
 }

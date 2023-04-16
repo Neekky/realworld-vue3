@@ -11,19 +11,19 @@ jobs:
 
     # 下载源码
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@main
 
     # 打包构建
     - name: Build
-      uses: actions/setup-node@master
+      uses: actions/setup-node@main
     - run: npm install
     - run: npm run build
-    - run: tar -zcvf release.tgz .nuxt static nuxt.config.js package.json package-lock.json pm2.config.json
+    - run: tar -zcvf release.tgz dist service.js pm2.config.json
 
     # 发布 Release
     - name: Create Release
       id: create_release
-      uses: actions/create-release@master
+      uses: actions/create-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
@@ -35,7 +35,7 @@ jobs:
     # 上传构建结果到 Release
     - name: Upload Release Asset
       id: upload-release-asset
-      uses: actions/upload-release-asset@master
+      uses: actions/upload-release-asset@main
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
@@ -46,15 +46,15 @@ jobs:
 
     # 部署到服务器
     - name: Deploy
-      uses: appleboy/ssh-action@master
+      uses: appleboy/ssh-action@main
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          cd /root/realworld-nuxtjs
-          wget https://github.com/lipengzhou/realworld-nuxtjs/releases/latest/download/release.tgz -O release.tgz
+          cd /home/admin/code/realworld-nuxtjs
+          wget https://github.com/Neekky/realworld-vue3/releases/latest/download/release.tgz -O release.tgz
           tar zxvf release.tgz
           npm install --production
           pm2 reload pm2.config.json
