@@ -12,7 +12,7 @@
         <div style="overflow: auto" class="col-md-9">
           <div class="feed-toggle">
             <ul class="nav nav-pills outline-active">
-              <li class="nav-item">
+              <li v-if="userStore.userInfo?._id" class="nav-item">
                 <div
                   @click="handleMuQuesClick"
                   :class="{ active: tabIndex === 0 }"
@@ -53,7 +53,7 @@
                 <div class="queser-icon-name">
                   <p>
                     {{ item.questioner?.name }}
-                    {{ dayjs(item.updatedAt).format("YYYY-MM-DD") }}
+                    {{ dayjs(item.updatedAt).format("MMM DD, YYYY") }}
                   </p>
                 </div>
               </div>
@@ -99,10 +99,13 @@ import _ from "lodash";
 import { questionApi, topicApi } from "@/api";
 import LoadMore from "@/components/LoadMore.vue";
 import defaultUserIcon from "@/assets/img/defaultUserIcon.jpeg";
+import { useUserStore } from "@/stores/user";
 
 const router: any = useRouter();
 
 const route: any = useRoute();
+
+const userStore = useUserStore();
 
 // 数据源
 const list = ref<any[]>([]);

@@ -42,6 +42,7 @@ const hideLoading = () => {
 // 请求拦截
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig<any>) => {
+    // todo 将token设置，放在拦截器中
     if (config.headers?.Authorization === "Bearer ") {
       console.log("执行了吗", config);
       const err: any = new Error("用户未登录");
