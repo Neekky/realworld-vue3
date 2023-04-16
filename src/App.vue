@@ -25,7 +25,7 @@
         <ul class="nav navbar-nav pull-xs-right">
           <li class="nav-item">
             <!-- Add "active" class when you're on that page" -->
-            <router-link class="nav-link" to="/" href="">首页</router-link>
+            <router-link class="nav-link" to="/" href="">首2页</router-link>
           </li>
           <li v-if="userStore.userInfo?._id" class="nav-item">
             <router-link class="nav-link" to="/question">
