@@ -1,52 +1,38 @@
-# realworld-vue3
+# 知乎 Vue3实现
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+### 项目运行
+``` js
+yarn
+// or
 npm install
+
+// 开发调试
+yarn dev
+
+// 构建打包
+yarn build
 ```
 
-### Compile and Hot-Reload for Development
+### 简介
+该项目为一个全栈项目，该项目仿"知乎"，模拟实现了：
+- 登录、注册页
+- 个人资料页
+- 问题列表首页
+- 文章详情页
+- 提问回答编辑页
+...
 
-```sh
-npm run dev
-```
+技术栈为：
+- Vue3 + Pinia + Nuxt3 + TS + Element-plus + Vite
+- git action(CI/CD)
+- PM2
+- Nginx
 
-### Type-Check, Compile and Minify for Production
+项目使用了Nuxt3,实现服务端渲染，但新版相较于Nuxt2改动太大，文档写的不好，无奈换回纯Vue3.
+处理了浏览器CORS问题。
 
-```sh
-npm run build
-```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+### 更新日志
+- 2023.04.17：增加CICD，使用 github action 完成自动部署
+- 2023.03.06：增加用户评论功能，回复评论功能
+- 2022.12.24：增加用户点赞功能，并处理已点赞情况
