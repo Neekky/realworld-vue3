@@ -3,7 +3,7 @@
     <div class="banner app-header">
       <div class="container">
         <h1 class="logo-font">知乎</h1>
-        <p>一个分享知识的地方</p>
+        <p>有问题,就会有答案</p>
       </div>
     </div>
 

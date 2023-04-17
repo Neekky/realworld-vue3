@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "ZhiHu_Vue3",
-      "script": "service"
+      "script": "service.js"
     }
   ]
 }
